@@ -199,8 +199,9 @@ code{font-family:'DM Mono',monospace;font-size:11px;background:var(--surface3);p
 </style>
 </head>
 <body>
+
 <!-- LOGIN SCREEN -->
-<div id="loginScreen" style="position:fixed; inset:0; background:var(--bg); z-index:99999; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+<div id="loginScreen" style="position:fixed; inset:0; background:var(--bg); z-index:99999; display:flex; align-items:center; justify-content:center;">
   <div class="modal-box" style="width:320px; text-align:center; padding:30px 24px;">
     <div class="hlogo" style="margin-bottom:6px; font-size:22px;"><span id="loginGuildName"></span> <span class="pm">Party</span> Manager</div>
     <div style="font-size:12px; color:var(--text2); margin-bottom:20px;">กรุณาเข้าสู่ระบบ</div>
@@ -223,6 +224,8 @@ code{font-family:'DM Mono',monospace;font-size:11px;background:var(--surface3);p
     <div id="loginError" style="color:#dc2626; font-size:12px; min-height:16px; margin-top:10px;"></div>
   </div>
 </div>
+
+
 <header>
   <div class="hlogo" id="hlogo"><span id="guildNameBadge"></span> <span class="pm">Party</span> Manager</div>
   <div class="mode-switch">
@@ -247,16 +250,15 @@ code{font-family:'DM Mono',monospace;font-size:11px;background:var(--surface3);p
     <button class="btn braid" onclick="addRaid()" style="flex-shrink:0;">+ Raid</button>
     <button class="btn bdanger" onclick="rResetAll()" style="flex-shrink:0;">↺ เริ่มใหม่</button>
   </div>
-    <!-- 🚩 แทรกลำโพงและแท็ก Audio ตรงนี้ครับ -->
-    <audio id="bgMusic" loop autoplay>
-      <source src="./audio/bgm.mp3" type="audio/mpeg">
-    </audio>
-    <button class="btn" id="btnMusic" onclick="toggleMusic()" style="background:#fefce8; border-color:#fef08a; color:#a16207;">🔊 ปิดเสียง</button>
+
     
     <!-- 🚩 ปุ่ม Logout เดิม -->
     <button class="btn" style="background: #fee2e2; color: #dc2626; border-color: #fecaca;" onclick="handleLogout()">🔒 Logout</button>
     <a href="feather.html" class="btn" style="background: #e0f2fe; color: #0369a1; text-decoration: none; display: inline-flex; align-items: center; margin-left: 10px;">
     🪶 จัดการขนนก
+  </a>
+  <a href="Quecardlist.html" class="btn" style="background: #f5f3ff; color: #7c3aed; border-color:#c4b5fd; text-decoration: none; display: inline-flex; align-items: center; margin-left: 8px;">
+    📕 จัดการการ์ด
   </a>
 </div>
 </header>
@@ -337,12 +339,14 @@ code{font-family:'DM Mono',monospace;font-size:11px;background:var(--surface3);p
   </div>
 </div>
 <script>
-// ── Login ────────────────────────────────────────────────────
+
+
+// ── Login Flow (อ่าน credentials จาก config.js) ──────────────
 window.addEventListener('DOMContentLoaded', () => {
   // ใส่ชื่อกิลด์บน login screen
   const lg = document.getElementById('loginGuildName');
   if (lg && typeof APP_CONFIG !== 'undefined') lg.textContent = APP_CONFIG.guildName || '';
-  // ถ้าเคย login session นี้อยู่แล้ว ข้ามไปเลย
+  // ถ้าเคย login ในรอบนี้แล้ว ข้าม login screen
   if (sessionStorage.getItem('roo_logged_in') === 'true') {
     document.getElementById('loginScreen').style.display = 'none';
   }
@@ -366,6 +370,7 @@ function doLogin() {
   }
 }
 
+// ฟังก์ชันสำหรับออกจากระบบ
 function handleLogout() {
   if (!confirm('ยืนยันว่าจะออกจากระบบใช่ไหมครับ?')) return;
   sessionStorage.removeItem('roo_logged_in');

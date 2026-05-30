@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🪶 Feather Queue</title>
+<title>📕 Card Queue</title>
 <script src="config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&family=Noto+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -15,6 +15,7 @@
   --red-color:#9a3412;--red-bg:#fff7ed;--red-border:#fdba74;
   --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
   --warn:#d97706;--warn-bg:#fffbeb;--warn-border:#fde68a;
+  --card-color:#7c3aed;--card-bg:#f5f3ff;--card-border:#c4b5fd;
   --radius:10px;--radius-sm:7px;
   --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
   --shadow-md:0 4px 14px rgba(0,0,0,.1);
@@ -58,6 +59,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .config-badge{font-size:11px;padding:2px 7px;border-radius:20px;font-weight:600;}
 .badge-white{background:var(--white-bg);color:var(--white-color);border:1px solid var(--white-border);}
 .badge-red{background:var(--red-bg);color:var(--red-color);border:1px solid var(--red-border);}
+.badge-card{background:var(--card-bg);color:var(--card-color);border:1px solid var(--card-border);}
 
 /* ── Sheet ID ── */
 .sheet-input{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;font-family:'DM Mono',monospace;background:var(--surface);color:var(--text);}
@@ -117,6 +119,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .feather-need{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;}
 .feather-need.white{color:var(--white-color);}
 .feather-need.red{color:var(--red-color);}
+.feather-need.card{color:var(--card-color);}
 
 .feather-actual{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;}
 .feather-actual.match{color:var(--green);}
@@ -128,6 +131,7 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .page-type{font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;flex-shrink:0;}
 .page-type.white{background:var(--white-bg);color:var(--white-color);}
 .page-type.red{background:var(--red-bg);color:var(--red-color);}
+.page-type.card{background:var(--card-bg);color:var(--card-color);}
 .page-text{font-family:'DM Mono',monospace;font-size:11px;}
 .warn-text{color:var(--warn);font-size:11px;font-weight:500;}
 
@@ -168,11 +172,11 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 <body>
 
 <header>
-  <div class="hlogo">🪶 <span>Feather</span> Queue</div>
+  <div class="hlogo">📕 <span>Card</span> Queue</div>
   <div style="font-size:12px;color:var(--text3);padding:3px 10px;background:var(--surface3);border-radius:20px;border:1px solid var(--border);" id="guildNameBadge">LostAokAok</div>
   <div class="header-right">
     <button class="btn bprimary" onclick="loadData()">⟳ โหลดข้อมูล</button>
-    <a href="Quecardlist.html" class="btn" style="text-decoration:none;background:#f5f3ff;border-color:#c4b5fd;color:#7c3aed;">📕 จัดการการ์ด</a>
+    <a href="feather.html" class="btn" style="text-decoration:none;">🪶 Feather</a>
     <a href="index.html" class="btn" style="text-decoration:none;">← Party Manager</a>
   </div>
 </header>
@@ -191,61 +195,43 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
         <input class="sheet-input" id="sheetId" value="" placeholder="Spreadsheet ID">
       </div>
 
-      <!-- Limit Config -->
+      <!-- Limit Config (Card) -->
       <div class="config-panel">
         <div class="config-title">Limit รอบนี้ (ต่อคน)</div>
         <div class="config-row">
-          <span class="config-label"><span class="config-badge badge-white">ขาว</span> limit</span>
-          <input class="config-input" id="limitWhite" type="number" value="12" min="0" oninput="recalc()">
-        </div>
-        <div class="config-row">
-          <span class="config-label"><span class="config-badge badge-red">แดง</span> limit</span>
-          <input class="config-input" id="limitRed" type="number" value="16" min="0" oninput="recalc()">
+          <span class="config-label"><span class="config-badge badge-card">การ์ด</span> limit</span>
+          <input class="config-input" id="limitCard" type="number" value="10" min="0" oninput="recalc()">
         </div>
       </div>
 
-      <!-- Total Feather Config -->
+      <!-- Total Card Config -->
       <div class="config-panel">
-        <div class="config-title">ขนนกรวมรอบนี้</div>
+        <div class="config-title">การ์ดรวมรอบนี้</div>
         <div class="config-row">
-          <span class="config-label"><span class="config-badge badge-white">ขาว</span> รวม</span>
-          <input class="config-input" id="totalWhite" type="number" value="140" min="0" oninput="recalc()">
-        </div>
-        <div class="config-row">
-          <span class="config-label"><span class="config-badge badge-red">แดง</span> รวม</span>
-          <input class="config-input" id="totalRed" type="number" value="160" min="0" oninput="recalc()">
+          <span class="config-label"><span class="config-badge badge-card">การ์ด</span> รวม</span>
+          <input class="config-input" id="totalCard" type="number" value="140" min="0" oninput="recalc()">
         </div>
       </div>
-<div class="config-panel" style="background: var(--surface2); border: 1px dashed var(--border2); margin-top: 12px;">
-        <div class="config-title" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-           <span style="font-weight: 600;">🧮 เครื่องช่วยนับจากหน้าจอเกม</span>
+      <!-- เครื่องช่วยนับการ์ดจากหน้าจอเกม -->
+      <div class="config-panel" style="background: var(--surface2); border: 1px dashed var(--border2); margin-top: 12px;">
+        <div class="config-title" style="margin-bottom: 10px;">
+          <span style="font-weight: 600;">🧮 เครื่องช่วยนับจากหน้าจอเกม</span>
         </div>
-        
         <div style="font-size: 11px; margin-bottom: 8px; color: var(--text2);">
-          จุดเริ่ม <span class="config-badge badge-white" style="background:#eff6ff; color:#1e40af; padding:2px 6px; border-radius:4px; font-weight:bold;">ขาว</span>
+          จุดเริ่ม <span class="config-badge badge-card" style="padding:2px 6px;">การ์ด</span>
           <div style="display:flex; gap:6px; margin-top:4px;">
-            <input type="number" id="calcWStartP" class="config-input" style="flex:1;" placeholder="หน้า" value="1" min="1">
-            <input type="number" id="calcWStartI" class="config-input" style="flex:1;" placeholder="อันที่ (1-4)" value="1" min="1" max="4">
+            <input type="number" id="calcCStartP" class="config-input" style="flex:1;" placeholder="หน้า" value="1" min="1">
+            <input type="number" id="calcCStartI" class="config-input" style="flex:1;" placeholder="อันที่ (1-4)" value="1" min="1" max="4">
           </div>
         </div>
-
-        <div style="font-size: 11px; margin-bottom: 8px; color: var(--text2);">
-          จุดเริ่ม <span class="config-badge badge-red" style="background:#fff7ed; color:#9a3412; padding:2px 6px; border-radius:4px; font-weight:bold;">แดง</span> <span style="font-size:10px; color:var(--text3);">(หรือจุดที่ขาวสิ้นสุด)</span>
-          <div style="display:flex; gap:6px; margin-top:4px;">
-            <input type="number" id="calcRStartP" class="config-input" style="flex:1;" placeholder="หน้า" min="1">
-            <input type="number" id="calcRStartI" class="config-input" style="flex:1;" placeholder="อันที่ (1-4)" min="1" max="4">
-          </div>
-        </div>
-
         <div style="font-size: 11px; margin-bottom: 10px; color: var(--text2);">
-          จุดจบ <span class="config-badge badge-red" style="background:#fff7ed; color:#9a3412; padding:2px 6px; border-radius:4px; font-weight:bold;">แดง</span>
+          จุดจบ <span class="config-badge badge-card" style="padding:2px 6px;">การ์ด</span>
           <div style="display:flex; gap:6px; margin-top:4px;">
-            <input type="number" id="calcREndP" class="config-input" style="flex:1;" placeholder="หน้า" min="1">
-            <input type="number" id="calcREndI" class="config-input" style="flex:1;" placeholder="อันที่ (1-4)" min="1" max="4">
+            <input type="number" id="calcCEndP" class="config-input" style="flex:1;" placeholder="หน้า" min="1">
+            <input type="number" id="calcCEndI" class="config-input" style="flex:1;" placeholder="อันที่ (1-4)" min="1" max="4">
           </div>
         </div>
-
-        <button type="button" class="btn bprimary" style="width: 100%; justify-content: center; background: var(--accent); color: #fff; padding: 6px; border-radius: 6px; cursor: pointer;" onclick="applyCalculatedFeathers()">
+        <button type="button" class="btn bprimary" style="width: 100%; justify-content: center; background: var(--card-color); color: #fff; padding: 6px; border-radius: 6px; cursor: pointer;" onclick="applyCalculatedCards()">
           ใช้ผลการคำนวณ ⚡
         </button>
       </div>
@@ -269,8 +255,8 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
   <!-- ── Content ── -->
   <div class="content" id="mainContent">
     <div class="empty-state">
-      <div class="empty-icon">🪶</div>
-      <div class="empty-title">Feather Queue</div>
+      <div class="empty-icon">📕</div>
+      <div class="empty-title">Card Queue</div>
       <div class="empty-sub">ตั้งค่า Sheet ID และ limit ทางซ้าย<br>แล้วกด "โหลดข้อมูล"</div>
     </div>
   </div>
@@ -279,13 +265,12 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 <div class="toast" id="toast"></div>
 
 <script>
-  // guard: ต้อง login ผ่าน Hub ก่อน
+    // guard: ต้อง login ผ่าน Hub ก่อน
 if (sessionStorage.getItem('roo_logged_in') !== 'true') {
     window.location.href = 'index.html';
 }
 // ── Config ──────────────────────────────────────────────────
-const PAGE_SIZE = 4;
-const GID_AUCTION_LIST  = APP_CONFIG.auctionListGid || '943811353';
+const GID_CARD_LIST  = APP_CONFIG.auctionListCardGid || '578614701';
 
 // ── State ────────────────────────────────────────────────────
 let allRowsOriginal = []; 
@@ -325,24 +310,6 @@ function parseCSV(text) {
   });
 }
 
-function pageLabel(s, e, p, type) {
-  const sp = Math.floor(s/p)+1, s1 = (s%p)+1;
-  const ep = Math.floor(e/p)+1, e1 = (e%p)+1;
-  
-  // ตั้งค่าสีสไตล์ของแต่ละประเภทขนนก (เน้นสีเข้มและมีพื้นหลังรองรับ)
-  const isW = type === 'white';
-  const bgStyle = isW ? 'background: #dbeafe; color: #1e40af;' : 'background: #fee2e2; color: #991b1b;';
-  const numStyle = `padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 16px; border: 1px solid ${isW ? '#bfdbfe' : '#fecaca'}; ${bgStyle}`;
-  const itemStyle = `font-weight: 700; color: ${isW ? '#2563eb' : '#dc2626'}; font-size: 15px;`;
-
-  if (sp === ep) {
-    if (s1 === e1) {
-      return `หน้า <span style="${numStyle}">${sp}</span> อันที่ <span style="${itemStyle}">${s1}</span>`;
-    }
-    return `เริ่มหน้า <span style="${numStyle}">${sp}</span> อันที่ <span style="${itemStyle}">${s1}</span> ถึง อันที่ <span style="${itemStyle}">${e1}</span>`;
-  }
-  return `เริ่มหน้า <span style="${numStyle}">${sp}</span> อันที่ <span style="${itemStyle}">${s1}</span> <span style="font-weight:bold;color:#64748b;">➔</span> ถึงหน้า <span style="${numStyle}">${ep}</span> อันที่ <span style="${itemStyle}">${e1}</span>`;
-}
 function toggleShowAll() {
   showAllMode = !showAllMode;
   const btn = document.getElementById('btnShowAll');
@@ -359,9 +326,9 @@ function rebuildQueData() {
   let qNum = 1;
   queData = [];
   for (const m of allRowsOriginal) {
-    if (showAllMode || m.white > 0 || m.red > 0) {
-      queData.push({ num: qNum++, name: m.name, white: m.white, red: m.red,
-                     wCheck: false, rCheck: false, done: m.white === 0 && m.red === 0 });
+    if (showAllMode || m.card > 0) {
+      queData.push({ num: qNum++, name: m.name, card: m.card,
+                     cCheck: false, done: m.card === 0 });
     }
   }
   renderQueList();
@@ -378,31 +345,26 @@ async function loadData() {
   if (!sheetId) { toast('กรุณาใส่ Sheet ID', 'error'); return; }
 
   document.getElementById('mainContent').innerHTML = `
-    <div class="loading-state"><div class="spinner"></div>กำลังโหลดข้อมูลจาก AuctionList...</div>`;
+    <div class="loading-state"><div class="spinner"></div>กำลังโหลดข้อมูลจาก AuctionListCard...</div>`;
 
   try {
-    const alText = await fetchCSV(csvUrl(sheetId, GID_AUCTION_LIST));
+    const alText = await fetchCSV(csvUrl(sheetId, GID_CARD_LIST));
     const alRows = parseCSV(alText);
 
     allRowsOriginal = [];
     queData = [];
- 
 
     for (let i = 1; i < alRows.length; i++) {
       const row = alRows[i];
       const name = (row[0] || '').trim(); 
       if (!name) continue;
 
-      const wD = parseInt(row[8]);  
-      const rD = parseInt(row[9]);  
+      const cD = parseInt(row[6]);   // col G = CardDeduct
 
-      const whiteNeed = isNaN(wD) ? 0 : Math.max(0, wD);
-      const redNeed   = isNaN(rD) ? 0 : Math.max(0, rD);
+      const cardNeed = isNaN(cD) ? 0 : Math.max(0, cD);
 
-      const memberItem = { name: name, white: whiteNeed, red: redNeed };
+      const memberItem = { name: name, card: cardNeed };
       allRowsOriginal.push(memberItem);
-
-// (ลบออกทั้งหมด — ไม่ต้องมี if block นี้แล้ว)
     }
 
 rebuildQueData();
@@ -435,22 +397,14 @@ function renderQueList() {
       <div class="que-num">${q.num}</div>
       <div style="flex:1;min-width:0;">
         <div class="que-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px;">${q.name}</div>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+        <div>
           <div style="font-size:10px; padding:3px 0; text-align:center; border-radius:4px; font-weight:600; transition:all 0.2s;
-                      background:${q.wCheck ? '#eff6ff' : '#f5f4f0'}; 
-                      color:${q.wCheck ? '#2563eb' : '#a09e96'}; 
-                      border:1px solid ${q.wCheck ? '#bfdbfe' : '#e2e0d8'};">
-            ${q.wCheck ? '✅ ขาว' : '⬜ ขาว'}
-          </div>
-          <div style="font-size:10px; padding:3px 0; text-align:center; border-radius:4px; font-weight:600; transition:all 0.2s;
-                      background:${q.rCheck ? '#fef2f2' : '#f5f4f0'}; 
-                      color:${q.rCheck ? '#dc2626' : '#a09e96'}; 
-                      border:1px solid ${q.rCheck ? '#fecaca' : '#e2e0d8'};">
-            ${q.rCheck ? '✅ แดง' : '⬜ แดง'}
+                      background:${q.cCheck ? '#f5f3ff' : '#f5f4f0'}; 
+                      color:${q.cCheck ? '#7c3aed' : '#a09e96'}; 
+                      border:1px solid ${q.cCheck ? '#c4b5fd' : '#e2e0d8'};">
+            ${q.cCheck ? '✅ การ์ด' : '⬜ การ์ด'}
           </div>
         </div>
-
       </div>
     </div>`).join('');
 
@@ -472,11 +426,10 @@ function selectQue(q) {
 }
 
 // ── ฟังก์ชันติ๊ก Checkbox (Manual Toggle) ─────────────────────
-function toggleCheck(num, type) {
+function toggleCheck(num) {
   const q = queData.find(x => x.num === num);
   if (q) {
-    if (type === 'w') q.wCheck = !q.wCheck;
-    if (type === 'r') q.rCheck = !q.rCheck;
+    q.cCheck = !q.cCheck;
     renderQueList(); // อัปเดตไอคอนในแถบซ้าย
   }
 }
@@ -495,76 +448,40 @@ function showEmptyContent() {
 // ── Render Result (หน้าต่างแสดงผลหลัก) ────────────────────────
 // ── Render Result (หน้าต่างแสดงผลหลัก ปรับ Highlight ให้วาดยาวและสีเข้มขึ้น) ────────────────────────
 function renderResult(q) {
-  const limitW = parseInt(document.getElementById('limitWhite').value) || 0;
-  const limitR = parseInt(document.getElementById('limitRed').value)   || 0;
-  const totalW = parseInt(document.getElementById('totalWhite').value) || 0;
-  const totalR = parseInt(document.getElementById('totalRed').value)   || 0;
+  const limitC = parseInt(document.getElementById('limitCard').value) || 0;
+  const totalC = parseInt(document.getElementById('totalCard').value) || 0;
 
-  // จำลองการรันคิวทั้งหมด เพื่อหาว่าใครได้อะไรบ้าง
-  let simWCur = 0, simRCur = 0;
+  // จำลองการรันคิวทั้งหมด เพื่อหาว่าใครได้การ์ดเท่าไหร่
+  let simCCur = 0;
   const allResults = queData.map(pq => {
-    const orig = allRowsOriginal.find(x => x.name === pq.name) || {white:0, red:0};
-    const nW = Math.min(orig.white, limitW);
-    const nR = Math.min(orig.red, limitR);
-    const aW = Math.min(nW, Math.max(0, totalW - simWCur));
-    const aR = Math.min(nR, Math.max(0, totalR - simRCur));
-    simWCur += aW; simRCur += aR;
-    
+    const orig = allRowsOriginal.find(x => x.name === pq.name) || {card:0};
+    const nC = Math.min(orig.card, limitC);
+    const aC = Math.min(nC, Math.max(0, totalC - simCCur));
+    simCCur += aC;
     return {
-      name: pq.name, num: pq.num, origW: orig.white, origR: orig.red,
-      needW: nW, needR: nR, actW: aW, actR: aR,
-      remW: Math.max(0, orig.white - aW),
-      remR: Math.max(0, orig.red - aR)
+      name: pq.name, num: pq.num, origC: orig.card,
+      needC: nC, actC: aC,
+      remC: Math.max(0, orig.card - aC)
     };
   });
 
-  const qRes = allResults.find(x => x.num === q.num) || {};
-  const origRow = allRowsOriginal.find(x => x.name === q.name) || {white:0, red:0};
-  
-  // หาตำแหน่งปัจจุบันของหน้าประมูล
-  let wCur = 0, rCur = 0;
-  for (let j = 0; j < allResults.length; j++) {
-    if (allResults[j].num === q.num) break;
-    wCur += allResults[j].actW;
-    rCur += allResults[j].actR;
-  }
+  const sumNeedC = allResults.reduce((s,x)=>s+x.needC,0);
+  const sumActC  = allResults.reduce((s,x)=>s+x.actC,0);
+  const sumRemC  = allResults.reduce((s,x)=>s+x.remC,0);
+  const pctC = totalC > 0 ? Math.round(sumActC/totalC*100) : 0;
 
-  let wPage = '', rPage = '';
-  if (qRes.actW > 0) wPage = pageLabel(wCur, wCur + qRes.actW - 1, PAGE_SIZE, 'white');
-  if (qRes.actR > 0) {
-    const rGS = totalW + rCur, rGE = totalW + rCur + qRes.actR - 1;
-    rPage = pageLabel(rGS, rGE, PAGE_SIZE, 'red');
-  }
-
-  const sumNeedW = allResults.reduce((s,x)=>s+x.needW,0);
-  const sumNeedR = allResults.reduce((s,x)=>s+x.needR,0);
-  const sumActW  = allResults.reduce((s,x)=>s+x.actW,0);
-  const sumActR  = allResults.reduce((s,x)=>s+x.actR,0);
-  const sumRemW  = allResults.reduce((s,x)=>s+x.remW,0);
-  const sumRemR  = allResults.reduce((s,x)=>s+x.remR,0);
-
-  const pctW = totalW > 0 ? Math.round(sumActW/totalW*100) : 0;
-  const pctR = totalR > 0 ? Math.round(sumActR/totalR*100) : 0;
-
-  const thisIdx = queData.findIndex(x => x.num === q.num);
-
-document.getElementById('mainContent').innerHTML = `
+  document.getElementById('mainContent').innerHTML = `
     <div style="position: sticky; top: 15px; z-index: 100; background: var(--surface2); border: 2px solid var(--border2); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; display: flex; gap: 32px; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
       <div style="font-size:15px; font-weight:700; color:var(--text2);">ทำรายการของคิว (${q.name}):</div>
       <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:16px; font-weight:600;">
-        <input type="checkbox" style="width:22px; height:22px; accent-color:#2563eb; cursor:pointer;" 
-               ${q.wCheck ? 'checked' : ''} onchange="toggleCheck(${q.num}, 'w')">
-        ✅ กดรับขนนกขาว
-      </label>
-      <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:16px; font-weight:600;">
-        <input type="checkbox" style="width:22px; height:22px; accent-color:#dc2626; cursor:pointer;" 
-               ${q.rCheck ? 'checked' : ''} onchange="toggleCheck(${q.num}, 'r')">
-        ✅ กดรับขนนกแดง
+        <input type="checkbox" style="width:22px; height:22px; accent-color:#7c3aed; cursor:pointer;" 
+               ${q.cCheck ? 'checked' : ''} onchange="toggleCheck(${q.num})">
+        ✅ กดรับการ์ด
       </label>
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <div style="font-size:14px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;">ตารางจำลองการเกลี่ยขนนกทั้งหมด</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;">ตารางจำลองการเกลี่ยการ์ดทั้งหมด</div>
       <button class="btn" style="background:#fff; border:1px solid #ccc; font-size:13px; padding:6px 12px; gap:6px; box-shadow:0 1px 2px rgba(0,0,0,0.05);" onclick="copyFullTable()">
         📋 ก๊อปปี้ตารางนี้ทั้งหมด (ไปแปะ Sheet)
       </button>
@@ -575,88 +492,52 @@ document.getElementById('mainContent').innerHTML = `
         <tr>
           <th class="num" style="font-size:13px; padding:12px 8px;">#</th>
           <th style="font-size:13px; padding:12px 8px;">ชื่อ</th>
-          <th class="num" style="min-width:70px; font-size:13px; padding:12px 8px;">
-            <div style="display:inline-flex; align-items:center; gap:4px;"><img src="./image/whitefeather.png" style="width:18px; height:18px;"> ขาว</div><br>
-            <span style="font-weight:400;color:var(--text3);font-size:11px;">สิทธิ์จำกัด</span>
+          <th class="num" style="min-width:80px; font-size:13px; padding:12px 8px;">
+            📕 การ์ด<br><span style="font-weight:400;color:var(--text3);font-size:11px;">สิทธิ์จำกัด</span>
           </th>
-          <th class="num" style="min-width:70px; font-size:13px; padding:12px 8px;">
-            <div style="display:inline-flex; align-items:center; gap:4px;"><img src="./image/redfeather.png" style="width:18px; height:18px;"> แดง</div><br>
-            <span style="font-weight:400;color:var(--text3);font-size:11px;">สิทธิ์จำกัด</span>
+          <th class="num" style="min-width:80px; font-size:13px; padding:12px 8px;">
+            📕 การ์ด<br><span style="font-weight:400;color:var(--text3);font-size:11px;">ได้จริง</span>
           </th>
-          <th class="num" style="min-width:70px; font-size:13px; padding:12px 8px;">
-            <div style="display:inline-flex; align-items:center; gap:4px;"><img src="./image/whitefeather.png" style="width:18px; height:18px;"> ขาว</div><br>
-            <span style="font-weight:400;color:var(--text3);font-size:11px;">ได้จริง</span>
+          <th class="num" style="background:#fefce8; min-width:80px; font-size:13px; padding:12px 8px;">
+            📕 การ์ด<br><span style="font-weight:400;color:#854d0e;font-size:11px;">คงเหลือ</span>
           </th>
-          <th class="num" style="min-width:70px; font-size:13px; padding:12px 8px;">
-            <div style="display:inline-flex; align-items:center; gap:4px;"><img src="./image/redfeather.png" style="width:18px; height:18px;"> แดง</div><br>
-            <span style="font-weight:400;color:var(--text3);font-size:11px;">ได้จริง</span>
-          </th>
-          <th class="num" style="background:#fefce8; min-width:70px; font-size:13px; padding:12px 8px;">
-            <div style="display:inline-flex; align-items:center; gap:4px;"><img src="./image/whitefeather.png" style="width:18px; height:18px;"> ขาว</div><br>
-            <span style="font-weight:400;color:#854d0e;font-size:11px;">คงเหลือ</span>
-          </th>
-          <th class="num" style="background:#fefce8; min-width:70px; font-size:13px; padding:12px 8px;">
-            <div style="display:inline-flex; align-items:center; gap:4px;"><img src="./image/redfeather.png" style="width:18px; height:18px;"> แดง</div><br>
-            <span style="font-weight:400;color:#854d0e;font-size:11px;">คงเหลือ</span>
-          </th>
-          <th style="background:#f8fafc; border-left:1px solid #e2e8f0; text-align:center; font-size:13px; padding:12px 8px;">
-            หน้าประมูล<br>
-            <span style="color:#2563eb; display:inline-flex; align-items:center; gap:4px; font-size:12px;"><img src="./image/whitefeather.png" style="width:16px; height:16px;">(ขาว)</span>
-          </th>
-          <th style="background:#fef2f2; text-align:center; font-size:13px; padding:12px 8px;">
-            หน้าประมูล<br>
-            <span style="color:#dc2626; display:inline-flex; align-items:center; gap:4px; font-size:12px;"><img src="./image/redfeather.png" style="width:16px; height:16px;">(แดง)</span>
+          <th style="background:#f5f3ff; border-left:1px solid var(--card-border); text-align:center; font-size:13px; padding:12px 8px;">
+            📕 หน้าประมูล<br><span style="color:var(--card-color);font-size:12px;">(การ์ด)</span>
           </th>
         </tr>
       </thead>
       <tbody>
-        ${allResults.map((m,i) => {
-          let wP='', rP='';
-          let localWCur=0, localRCur=0;
-          for(let j=0; j<i; j++) { localWCur+=allResults[j].actW; localRCur+=allResults[j].actR; }
-          
-          if(m.actW>0) wP = pageLabel(localWCur, localWCur+m.actW-1, PAGE_SIZE, 'white');
-          if(m.actR>0){ const rGS=totalW+localRCur, rGE=totalW+localRCur+m.actR-1; rP = pageLabel(rGS, rGE, PAGE_SIZE, 'red'); }
-          
+${allResults.map((m,i) => {
           const isSelected = m.num === q.num;
-          
-          // 🌟 1. เปลี่ยนสี Highlight แถวให้เข้มชัดเจนขึ้น (สีฟ้า #dbeafe)
-          const trBg = isSelected ? 'background:#dbeafe;' : '';
-          
-          // 🌟 2. ลบสีพื้นหลังของคอลัมน์ออก ถ้าแถวนั้นถูก Highlight อยู่ (เพื่อให้สียาวทะลุ)
+          const trBg = isSelected ? 'background:#ede9fe;' : '';
           const remainBg = isSelected ? '' : 'background:#fefce8;';
-          const pageWBg = isSelected ? '' : 'background:#f8fafc;';
-          const pageRBg = isSelected ? '' : 'background:#fef2f2;';
-
+          const pageBg = isSelected ? '' : 'background:#f5f3ff;';
+          let cP = '';
+          let localCur = 0;
+          for(let j=0; j<i; j++) localCur += allResults[j].actC;
+          if(m.actC>0) cP = pageLabel(localCur, localCur + m.actC - 1, 4);
           return `<tr style="${trBg}">
             <td class="num" style="font-family:'DM Mono';font-size:14px;color:var(--text3); padding:12px 8px;">${m.num}</td>
             <td style="padding:12px 8px;"><div style="font-weight:${isSelected?700:500}; font-size:14px;">${m.name}</div></td>
-            <td class="num" style="padding:12px 8px;"><span class="feather-need white" style="font-size:14px;">${m.needW||'—'}</span></td>
-            <td class="num" style="padding:12px 8px;"><span class="feather-need red" style="font-size:14px;">${m.needR||'—'}</span></td>
-            <td class="num" style="padding:12px 8px;"><span class="feather-actual ${m.actW===m.needW&&m.needW>0?'match':m.actW>0?'partial':'zero'}" style="font-size:14px;">${m.actW||'—'}</span></td>
-            <td class="num" style="padding:12px 8px;"><span class="feather-actual ${m.actR===m.needR&&m.needR>0?'match':m.actR>0?'partial':'zero'}" style="font-size:14px;">${m.actR||'—'}</span></td>
-            
-            <td class="num" style="${remainBg} padding:12px 8px;"><span style="color:${m.remW===0?'var(--green)':'var(--text2)'};font-weight:700;font-size:14px;">${m.remW===0?'✅':m.remW}</span></td>
-            <td class="num" style="${remainBg} padding:12px 8px;"><span style="color:${m.remR===0?'var(--green)':'var(--text2)'};font-weight:700;font-size:14px;">${m.remR===0?'✅':m.remR}</span></td>
-            
-            <td style="${pageWBg} border-left:1px solid #e2e8f0; font-size:13.5px; padding:12px 8px; line-height:1.4;">
-              ${m.actW>0 ? `<span>${wP}</span>` : `<span style="color:#cbd5e1;">—</span>`}
-            </td>
-            <td style="${pageRBg} font-size:13.5px; padding:12px 8px; line-height:1.4;">
-              ${m.actR>0 ? `<span>${rP}</span>` : `<span style="color:#fca5a5;">—</span>`}
+            <td class="num" style="padding:12px 8px;"><span class="feather-need card" style="font-size:14px;">${m.needC||'—'}</span></td>
+            <td class="num" style="padding:12px 8px;"><span class="feather-actual ${m.actC===m.needC&&m.needC>0?'match':m.actC>0?'partial':'zero'}" style="font-size:14px;">${m.actC||'—'}</span></td>
+            <td class="num" style="${remainBg} padding:12px 8px;"><span style="color:${m.remC===0?'var(--green)':'var(--text2)'};font-weight:700;font-size:14px;">${m.remC===0?'✅':m.remC}</span></td>
+            <td style="${pageBg} border-left:1px solid var(--card-border); font-size:13.5px; padding:12px 8px; line-height:1.4;">
+              ${m.actC>0 ? `<span>${cP}</span>` : `<span style="color:#cbd5e1;">—</span>`}
             </td>
           </tr>`;
         }).join('')}
         <tr class="total-row">
           <td colspan="2" style="font-size:14px; font-weight:700; padding:12px 8px;">รวมทั้งหมด</td>
-          <td class="num" style="padding:12px 8px;"><span class="feather-need white" style="font-size:14px;">${sumNeedW}</span></td>
-          <td class="num" style="padding:12px 8px;"><span class="feather-need red" style="font-size:14px;">${sumNeedR}</span></td>
-          <td class="num" style="padding:12px 8px;"><span class="feather-actual ${sumActW===totalW?'match':'partial'}" style="font-size:14px;">${sumActW}</span></td>
-          <td class="num" style="padding:12px 8px;"><span class="feather-actual ${sumActR===totalR?'match':'partial'}" style="font-size:14px;">${sumActR}</span></td>
-          <td class="num" style="background:#fefce8;color:#854d0e;font-weight:700;font-size:14px; padding:12px 8px;">${sumRemW}</td>
-          <td class="num" style="background:#fefce8;color:#854d0e;font-weight:700;font-size:14px; padding:12px 8px;">${sumRemR}</td>
-          <td colspan="2" style="font-size:13px;color:var(--text2);text-align:center; padding:12px 8px; font-weight:600;">
-            ${sumActW===totalW&&sumActR===totalR?'✅ กองกลางแจกครบ':'⚠️ ขนไม่พอแจกถึงคิวท้าย'}
+          <td class="num" style="padding:12px 8px;"><span class="feather-need card" style="font-size:14px;">${sumNeedC}</span></td>
+          <td class="num" style="padding:12px 8px;"><span class="feather-actual ${sumActC===totalC?'match':'partial'}" style="font-size:14px;">${sumActC}</span></td>
+<td class="num" style="background:#fefce8;color:#854d0e;font-weight:700;font-size:14px; padding:12px 8px;">${sumRemC}</td>
+          <td style="background:#f5f3ff;"></td>
+        </tr>
+        <tr>
+          <td colspan="6" style="font-size:13px;color:var(--text2);text-align:center; padding:12px 8px; font-weight:600; background:var(--surface2);">
+            ${sumActC>=sumNeedC && sumNeedC>0 ? '✅ การ์ดกองกลางแจกครบทุกคน' : (totalC>0 && sumActC<sumNeedC ? '⚠️ การ์ดไม่พอแจกถึงคิวท้าย' : '')}
+            &nbsp;&nbsp;(แจกไปแล้ว ${sumActC}/${totalC} = ${pctC}%)
           </td>
         </tr>
       </tbody>
@@ -668,30 +549,23 @@ document.getElementById('mainContent').innerHTML = `
 function copyFullTable() {
   if (!queData.length) return toast('ไม่มีข้อมูลให้คัดลอก', 'error');
 
-  const limitW = parseInt(document.getElementById('limitWhite').value) || 0;
-  const limitR = parseInt(document.getElementById('limitRed').value)   || 0;
-  const totalW = parseInt(document.getElementById('totalWhite').value) || 0;
-  const totalR = parseInt(document.getElementById('totalRed').value)   || 0;
+  const limitC = parseInt(document.getElementById('limitCard').value) || 0;
+  const totalC = parseInt(document.getElementById('totalCard').value) || 0;
 
-  let simWCur = 0, simRCur = 0;
-  let textOutput = "คิว\tชื่อสมาชิก\tขาว(สิทธิ์)\tแดง(สิทธิ์)\tขาว(ได้จริง)\tแดง(ได้จริง)\tขาว(คงเหลือ)\tแดง(คงเหลือ)\n";
+  let simCCur = 0;
+  let textOutput = "คิว\tชื่อสมาชิก\tการ์ด(สิทธิ์)\tการ์ด(ได้จริง)\tการ์ด(คงเหลือ)\n";
 
   queData.forEach(pq => {
-    const orig = allRowsOriginal.find(x => x.name === pq.name) || {white:0, red:0};
-    const nW = Math.min(orig.white, limitW);
-    const nR = Math.min(orig.red, limitR);
-    const aW = Math.min(nW, Math.max(0, totalW - simWCur));
-    const aR = Math.min(nR, Math.max(0, totalR - simRCur));
-    simWCur += aW; simRCur += aR;
-    
-    const remW = Math.max(0, orig.white - aW);
-    const remR = Math.max(0, orig.red - aR);
-
-    textOutput += `${pq.num}\t${pq.name}\t${nW}\t${nR}\t${aW}\t${aR}\t${remW}\t${remR}\n`;
+    const orig = allRowsOriginal.find(x => x.name === pq.name) || {card:0};
+    const nC = Math.min(orig.card, limitC);
+    const aC = Math.min(nC, Math.max(0, totalC - simCCur));
+    simCCur += aC;
+    const remC = Math.max(0, orig.card - aC);
+    textOutput += `${pq.num}\t${pq.name}\t${nC}\t${aC}\t${remC}\n`;
   });
 
   navigator.clipboard.writeText(textOutput).then(() => {
-    alert('📋 คัดลอกตารางจำลองแจกขนนกทั้งหมดเรียบร้อยแล้ว!\nสามารถเอาไปคลิกขวา Paste (วาง) ใน Google Sheet ได้เลยครับ');
+    alert('📋 คัดลอกตารางจำลองแจกการ์ดทั้งหมดเรียบร้อยแล้ว!\nสามารถเอาไปคลิกขวา Paste (วาง) ใน Google Sheet ได้เลยครับ');
   }).catch(err => {
     alert('เบราว์เซอร์บล็อกระบบอัตโนมัติ ให้ก็อปปี้ข้อความด้านล่างนี้ไปวางแทนครับ:\n\n' + textOutput);
   });
@@ -700,111 +574,80 @@ function copyFullTable() {
 // ── ฟังก์ชันก๊อปปี้แบบมีชื่อติดไปด้วย สำหรับปุ่มในเมนูซ้าย ───────────────────
 function copyDataBackToSheet() {
   if (!allRowsOriginal.length) return toast('ไม่พบข้อมูลที่จะคัดลอก', 'error');
-  
-  const limitW = parseInt(document.getElementById('limitWhite').value) || 0;
-  const limitR = parseInt(document.getElementById('limitRed').value)   || 0;
-  const totalW = parseInt(document.getElementById('totalWhite').value) || 0;
-  const totalR = parseInt(document.getElementById('totalRed').value)   || 0;
 
-  // คำนวณยอดคงเหลือใหม่ล่าสุดอิงจาก LIMIT เพื่อส่งกลับ
-  let simWCur = 0, simRCur = 0;
-  let textOutput = "ชื่อสมาชิก\tขาวคงเหลือใหม่\tแดงคงเหลือใหม่\n";
-  
+  const limitC = parseInt(document.getElementById('limitCard').value) || 0;
+  const totalC = parseInt(document.getElementById('totalCard').value) || 0;
+
+  let simCCur = 0;
+  let textOutput = "ชื่อสมาชิก\tการ์ดคงเหลือใหม่\n";
+
   queData.forEach(pq => {
     const orig = allRowsOriginal.find(x => x.name === pq.name);
     if(orig) {
-      const aW = Math.min(Math.min(orig.white, limitW), Math.max(0, totalW - simWCur));
-      const aR = Math.min(Math.min(orig.red, limitR), Math.max(0, totalR - simRCur));
-      simWCur += aW; simRCur += aR;
-      textOutput += `${orig.name}\t${Math.max(0, orig.white - aW)}\t${Math.max(0, orig.red - aR)}\n`;
+      const aC = Math.min(Math.min(orig.card, limitC), Math.max(0, totalC - simCCur));
+      simCCur += aC;
+      textOutput += `${orig.name}\t${Math.max(0, orig.card - aC)}\n`;
     }
   });
-  
+
   navigator.clipboard.writeText(textOutput).then(() => {
-    alert('📋 คัดลอก "ชื่อ + ยอดคงเหลือล่าสุด" เรียบร้อยแล้ว!\nนำไปวางทับใน Sheet เพื่อใช้เป็นคิวกิจกรรมรอบหน้าได้เลยครับ');
+    alert('📋 คัดลอก "ชื่อ + ยอดการ์ดคงเหลือล่าสุด" เรียบร้อยแล้ว!\nนำไปวางทับใน Sheet เพื่อใช้เป็นคิวกิจกรรมรอบหน้าได้เลยครับ');
   });
 }
+// ── ฟังก์ชันสร้างข้อความหน้าประมูล (1 หน้า = 4 ชิ้น) ──────────
+function pageLabel(s, e, p) {
+  const sp = Math.floor(s/p)+1, s1 = (s%p)+1;
+  const ep = Math.floor(e/p)+1, e1 = (e%p)+1;
+  const numStyle = `padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 16px; border: 1px solid #c4b5fd; background: #f5f3ff; color: #6d28d9;`;
+  const itemStyle = `font-weight: 700; color: #7c3aed; font-size: 15px;`;
+  if (sp === ep) {
+    if (s1 === e1) return `หน้า <span style="${numStyle}">${sp}</span> อันที่ <span style="${itemStyle}">${s1}</span>`;
+    return `เริ่มหน้า <span style="${numStyle}">${sp}</span> อันที่ <span style="${itemStyle}">${s1}</span> ถึง อันที่ <span style="${itemStyle}">${e1}</span>`;
+  }
+  return `เริ่มหน้า <span style="${numStyle}">${sp}</span> อันที่ <span style="${itemStyle}">${s1}</span> <span style="font-weight:bold;color:#64748b;">➔</span> ถึงหน้า <span style="${numStyle}">${ep}</span> อันที่ <span style="${itemStyle}">${e1}</span>`;
+}
 
+// ── เครื่องช่วยนับจำนวนการ์ดจากหน้าจอเกม ──────────────────
+function applyCalculatedCards() {
+  const csP = parseInt(document.getElementById('calcCStartP').value) || 1;
+  const csI = parseInt(document.getElementById('calcCStartI').value) || 1;
+  const ceP = parseInt(document.getElementById('calcCEndP').value);
+  const ceI = parseInt(document.getElementById('calcCEndI').value);
+  if (!ceP || !ceI) {
+    alert('❌ กรุณากรอกหน้าและอันที่ของจุดจบให้ครบก่อนคำนวณครับ');
+    return;
+  }
+  const idxStart = (csP - 1) * 4 + csI;
+  const idxEnd   = (ceP - 1) * 4 + ceI;
+  const totalCard = Math.max(0, idxEnd - idxStart + 1);
+  const mainInput = document.getElementById('totalCard');
+  if (mainInput) {
+    mainInput.value = totalCard;
+    recalc();
+    toast(`⚡ คำนวณสำเร็จ! การ์ดที่ได้: ${totalCard} ใบ`, 'success');
+  }
+}
 function recalc() {
   if (selectedQue) renderResult(selectedQue);
 }
 
 // ── Init from config ────────────────────────────────────────
-(function initFeatherConfig() {
-  // guild name
+(function initCardConfig() {
   const badge = document.getElementById('guildNameBadge');
   if (badge) badge.textContent = APP_CONFIG.guildName || 'Guild';
-  // title
-  document.title = '🪶 Feather Queue — ' + (APP_CONFIG.guildName || 'Guild');
-  // sheet ID default
+  document.title = '📕 Card Queue — ' + (APP_CONFIG.guildName || 'Guild');
   const sheetInput = document.getElementById('sheetId');
   if (sheetInput && !sheetInput.value) {
     sheetInput.value = APP_CONFIG.spreadsheetId || '';
   }
-  // default limit values
-  const lw = document.getElementById('limitWhite');
-  const lr = document.getElementById('limitRed');
-  const tw = document.getElementById('totalWhite');
-  const tr = document.getElementById('totalRed');
-  if (lw) lw.value = APP_CONFIG.defaultLimitWhite  || 12;
-  if (lr) lr.value = APP_CONFIG.defaultLimitRed    || 16;
-  if (tw) tw.value = APP_CONFIG.defaultTotalWhite  || 140;
-  if (tr) tr.value = APP_CONFIG.defaultTotalRed    || 160;
-  if (!APP_CONFIG.spreadsheetId || !APP_CONFIG.auctionListGid) {
-    console.warn('⚠️ กรุณาตั้งค่า spreadsheetId และ auctionListGid ใน config.js');
+  const lc = document.getElementById('limitCard');
+  const tc = document.getElementById('totalCard');
+  if (lc) lc.value = APP_CONFIG.defaultLimitCard  || 10;
+  if (tc) tc.value = APP_CONFIG.defaultTotalCard  || 140;
+  if (!APP_CONFIG.spreadsheetId || !APP_CONFIG.auctionListCardGid) {
+    console.warn('⚠️ กรุณาตั้งค่า spreadsheetId และ auctionListCardGid ใน config.js');
   }
 })();
-// ── ฟังก์ชันคำนวณหน้าขนนกและส่งค่าไปยังกล่องกรอกหลัก ──────────────────
-function applyCalculatedFeathers() {
-  // ดึงค่าตำแหน่ง ขาว เริ่มต้น
-  const wsP = parseInt(document.getElementById('calcWStartP').value) || 1;
-  const wsI = parseInt(document.getElementById('calcWStartI').value) || 1;
-  
-  // ดึงค่าตำแหน่ง แดง เริ่มต้น
-  const rsP = parseInt(document.getElementById('calcRStartP').value);
-  const rsI = parseInt(document.getElementById('calcRStartI').value);
-  
-  // ดึงค่าตำแหน่ง แดง สิ้นสุด
-  const reP = parseInt(document.getElementById('calcREndP').value);
-  const reI = parseInt(document.getElementById('calcREndI').value);
-
-  // ตรวจสอบความถูกต้องของข้อมูลเบื้องต้น
-  if (!rsP || !rsI || !reP || !reI) {
-    alert('❌ กรุณากรอกข้อมูลหน้าและตำแหน่งของขนแดงให้ครบถ้วนก่อนคำนวณครับ');
-    return;
-  }
-
-  // แปลง หน้า + ลำดับชิ้น ให้เป็นจำนวนชิ้นสะสมทั้งหมด (1 หน้ามี 4 ชิ้น)
-  const idx_W_start = (wsP - 1) * 4 + wsI;
-  const idx_R_start = (rsP - 1) * 4 + rsI;
-  const idx_R_end   = (reP - 1) * 4 + reI;
-
-  // ตรรกะการคำนวณจำนวนชิ้นสะสม
-  // 1. ขนขาว = จุดเริ่มขนแดง - จุดเริ่มขนขาว
-  const totalWhite = Math.max(0, idx_R_start - idx_W_start);
-  
-  // 2. ขนแดง = จุดจบขนแดง - จุดเริ่มขนแดง + 1 (บวก 1 เพื่อรวมไอเทมชิ้นสุดท้ายในหน้านั้นด้วย)
-  const totalRed = Math.max(0, idx_R_end - idx_R_start + 1);
-
-  // นำค่าไปกรอกลงในช่องอินพุตหลักหลักของระบบ
-  const mainWhiteInput = document.getElementById('totalWhite');
-  const mainRedInput = document.getElementById('totalRed');
-
-  if (mainWhiteInput && mainRedInput) {
-    mainWhiteInput.value = totalWhite;
-    mainRedInput.value = totalRed;
-    
-    // เรียกใช้ฟังก์ชันคำนวณจัดคิวใหม่ทันที
-    recalc();
-    
-    // ใช้ระบบแจ้งเตือนแบบ Toast (ถ้ามีฟังก์ชันสำเร็จรูป) หรือแจ้งผ่าน alert ปกติ
-    if (typeof toast === "function") {
-      toast(`⚡ คำนวณสำเร็จ! ส่งค่า ขาว: ${totalWhite} | แดง: ${totalRed} ไปยังช่องกรอกหลักแล้ว`, 'success');
-    } else {
-      alert(`📋 คำนวณเรียบร้อย!\n- ขนขาวได้: ${totalWhite} ชิ้น\n- ขนแดงได้: ${totalRed} ชิ้น\nระบบอัปเดตลงช่องกรอกหลักให้แล้ว (คุณยังสามารถพิมพ์แก้ไขตัวเลขที่ช่องหลักได้ตลอดเวลาครับ)`);
-    }
-  }
-}
 </script>
 </body>
 </html>

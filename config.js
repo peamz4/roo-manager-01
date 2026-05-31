@@ -6,7 +6,7 @@
 const APP_CONFIG = {
 
   // ── ข้อมูลกิลด์ ──────────────────────────────────────────
-  guildName: 'Test',                // ชื่อกิลด์ (แสดงใน header)
+  guildName: 'หมูเห็ด',                // ชื่อกิลด์ (แสดงใน header)
   appTitle:  'Party Manager',       // ชื่อแอป index.html
 
   // ── Google Sheets ─────────────────────────────────────────
@@ -45,12 +45,15 @@ const APP_CONFIG = {
   defaultLimitCard:   10,    // การ์ด limit ต่อคนต่อรอบ (default)
   defaultTotalCard:   140,   // การ์ดรวมที่ได้จากกิจกรรม (default)
 
-  // ── Login Credentials ────────────────────────────────────
-  // เพิ่ม/ลบ user ได้ที่นี่ ไม่ต้องแตะ index.html เลย
-  loginCredentials: [
-    { username: 'admin',   password: 'guildpass2025' },
-    { username: 'officer', password: 'officer123'    },
-    // { username: 'member1', password: 'pass1' },
+  // ── Discord Username Whitelist ────────────────────────────────
+  // แก้ไขผ่าน .env แล้วรัน: node sync.js
+  // หรือแก้ตรงนี้ก็ได้ (ตัวพิมพ์เล็ก-ใหญ่ ไม่สำคัญ)
+  allowedDiscordUsernames: [
+    'peamz4',
+    'repursalz_drink',
+    'imdoubleoo_126',
+    'abso8820_90257',
+    'dearxzibitz',
   ],
 
 };

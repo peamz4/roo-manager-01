@@ -7,7 +7,7 @@ const APP_CONFIG = {
 
   // ── ข้อมูลกิลด์ ──────────────────────────────────────────
   guildName: 'หมูเห็ด',                // ชื่อกิลด์ (แสดงใน header)
-  appTitle:  'Party Manager',       // ชื่อแอป index.html
+  appTitle:  'Guild Manager',       // ชื่อแอป index.html
 
   // ── Google Sheets ─────────────────────────────────────────
   // วิธีหา Spreadsheet ID:
